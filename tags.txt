@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <title>Shifa Tameer-E-Millat University, Park Road, ISB</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    .container {
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 3px double #3498db;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #3498db;
+      color: #fff;
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .button:hover {
+      background-color: #2980b9;
+    }
+    .required {
+      color: red;
+    }
+    .delete-sheet {
+      background-color: #e74c3c;
+      margin-top: 10px;
+    }
+    .delete-sheet:hover {
+      background-color: #c0392b;
+    }
+    /* Style for the page border on each generated PDF sheet */
+    @media print {
+      @page {
+        size: auto;
+        margin: 1cm;
+        border: 3px double #3498db;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="text-center">Shifa Tameer-E-Millat University, Park Road, ISB</h1>
+      <h2 class="text-center">Examination Department</h2>
+    </div>
+
+    <div id="exam-sheets">
+      <div class="exam-sheet">
+        <!-- Initial sheet content goes here -->
+        <div class="row">
+          <div class="col-md-6">
+            <label for="program">Program:<span class="required">*</span></label>
+            <input type="text" id="program" name="program" class="form-control" placeholder="Program Name" style="border: none; border-bottom: 1px solid black;">
+          </div>
+          <div class="col-md-6">
+            <label for="semester">Semester:<span class="required">*</span></label>
+            <input type="text" id="semester" name="semester" class="form-control" placeholder="Semester Number" style="border: none; border-bottom: 1px solid black;">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="date">Date:<span class="required">*</span></label>
+            <input type="text" id="date" name="date" class="form-control" placeholder="Date" style="border: none; border-bottom: 1px solid black;">
+          </div>
+          <div class="col-md-6">
+            <label for="exam-type">Exam Type:<span class="required">*</span></label>
+            <input type="text" id="exam-type" name="exam-type" class="form-control" placeholder="Exam Type" style="border: none; border-bottom: 1px solid black;">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="quantity">Quantity:<span class="required">*</span></label>
+            <input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" style="border: none; border-bottom: 1px solid black;">
+          </div>
+          <div class="col-md-6">
+            <label for="attendees">Attendees:</label>
+            <input type="text" id="attendees" name="attendees" class="form-control" placeholder="Attendees" style="border: none; border-bottom: 1px solid black;">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="paper-type">Paper Type:<span class="required">*</span></label>
+            <input type="text" id="paper-type" name="paper-type" class="form-control" placeholder="Paper Type" style="border: none; border-bottom: 1px solid black;">
+          </div>
+          <div class="col-md-6">
+            <label for="session">Session:<span class="required">*</span></label>
+            <input type="text" id="session" name="session" class="form-control" placeholder="Session" style="border: none; border-bottom: 1px solid black;">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="course">Course:<span class="required">*</span></label>
+            <input type="text" id="course" name="course" class="form-control" placeholder="Course Name" style="border: none; border-bottom: 1px solid black;">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="sealed-by">Sealed By:</label>
+            <div class="form-control" style="border: none; border-bottom: 1px solid black; height: 30px;"></div>
+          </div>
+          <div class="col-md-6">
+            <label for="signature">Signature:</label>
+            <div class="form-control" style="border: none; border-bottom: 1px solid black; height: 30px;"></div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label for="course-teacher">Course Teacher:<span class="required">*</span></label>
+            <input type="text" id="course-teacher" name="course-teacher" class="form-control" placeholder="Enter Course Teacher's Name" style="border: none; border-bottom: 1px solid black;">
+          </div>
+          <div class="col-md-6">
+            <label for="signature">Signature:</label>
+            <div class="form-control" style="border: none; border-bottom: 1px solid black; height: 40px;"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-right">
+            <button class="button delete-sheet">Delete Sheet</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row text-center mb-4">
+      <div class="col">
+        <button class="button" id="add-sheet">Add Sheet</button>
+        <button class="button" id="download">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      const { jsPDF } = window.jspdf;  // Correct access to jsPDF
+        var doc = new jsPDF();
+        var sheetCount = 1;
+
+        // Function to add the header to the PDF
+        function addHeaderToPDF(doc) {
+            doc.setFontSize(22);
+            doc.text('Shifa Tameer-E-Millat University, Park Road, ISB', 10, 10);
+            doc.text('Examination Department', 10, 20);
+            doc.setFontSize(18); // Reset font size for content
+            doc.text("", 10, 30);
+        }
+
+        function addExamSheet() {
+            var newSheet = `
+                <div class="exam-sheet" id="exam-sheet-${sheetCount}">
+                    <div class="header" id="header-${sheetCount}" style="margin-top: 20px;">
+                        <h1 class="text-center">Shifa Tameer-E-Millat University, Park Road, ISB</h1>
+                        <h2 class="text-center">Examination Department</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="program">Program:<span class="required">*</span></label>
+                            <input type="text" id="program-${sheetCount}" name="program" class="form-control" placeholder="Program Name" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="semester">Semester:<span class="required">*</span></label>
+                            <input type="text" id="semester-${sheetCount}" name="semester" class="form-control" placeholder="Semester Number" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="date">Date:<span class="required">*</span></label>
+                            <input type="text" id="date-${sheetCount}" name="date" class="form-control" placeholder="Date" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="exam-type">Exam Type:<span class="required">*</span></label>
+                            <input type="text" id="exam-type-${sheetCount}" name="exam-type" class="form-control" placeholder="Exam Type" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="quantity">Quantity:<span class="required">*</span></label>
+                            <input type="text" id="quantity-${sheetCount}" name="quantity" class="form-control" placeholder="Quantity" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="attendees">Attendees:</label>
+                            <input type="text" id="attendees-${sheetCount}" name="attendees" class="form-control" placeholder="Attendees" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="paper-type">Paper Type:<span class="required">*</span></label>
+                            <input type="text" id="paper-type-${sheetCount}" name="paper-type" class="form-control" placeholder="Paper Type" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="session">Session:<span class="required">*</span></label>
+                            <input type="text" id="session-${sheetCount}" name="session" class="form-control" placeholder="Session" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="course">Course:<span class="required">*</span></label>
+                            <input type="text" id="course-${sheetCount}" name="course" class="form-control" placeholder="Course Name" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="sealed-by">Sealed By:</label>
+                            <div class="form-control" style="border: none; border-bottom: 1px solid black; height: 30px;"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="signature">Signature:</label>
+                            <div class="form-control" style="border: none; border-bottom: 1px solid black; height: 30px;"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="course-teacher">Course Teacher:<span class="required">*</span></label>
+                            <input type="text" id="course-teacher-${sheetCount}" name="course-teacher" class="form-control" placeholder="Enter Course Teacher's Name" style="border: none; border-bottom: 1px solid black;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="signature">Signature:</label>
+                            <div class="form-control" style="border: none; border-bottom: 1px solid black; height: 40px;"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button class="button delete-sheet" data-sheet-id="${sheetCount}">Delete Sheet</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            $('#exam-sheets').append(newSheet);
+        }
+
+        $('#add-sheet').on('click', function() {
+            addExamSheet();
+            sheetCount++;
+        });
+
+        // Delete functionality
+        $(document).on('click', '.delete-sheet', function() {
+            var sheetId = $(this).data('sheet-id');
+            // Prevent deletion of the first sheet
+            if (sheetId > 0) {
+                $(this).closest('.exam-sheet').remove();
+            } else {
+                alert("The first sheet cannot be deleted.");
+            }
+        });
+
+        // Download PDF functionality
+        $('#download').on('click', function() {
+            var doc = new jsPDF();
+
+            // Loop through all exam sheets
+            $('.exam-sheet').each(function(index) {
+                if (index !== 0) {
+                    doc.addPage();
+                }
+
+                var program = $(this).find('[name="program"]').val();
+                var semester = $(this).find('[name="semester"]').val();
+                var date = $(this).find('[name="date"]').val();
+                var examType = $(this).find('[name="exam-type"]').val();
+                var quantity = $(this).find('[name="quantity"]').val();
+                var attendees = $(this).find('[name="attendees"]').val();
+                var paperType = $(this).find('[name="paper-type"]').val();
+                var session = $(this).find('[name="session"]').val();
+                var course = $(this).find('[name="course"]').val();
+                var courseTeacher = $(this).find('[name="course-teacher"]').val();
+
+                addHeaderToPDF(doc);
+
+                doc.setFontSize(14);
+                doc.text(`Program: ${program}`, 10, 30);
+                doc.text(`Semester: ${semester}`, 10, 40);
+                doc.text(`Date: ${date}`, 10, 50);
+                doc.text(`Exam Type: ${examType}`, 10, 60);
+                doc.text(`Quantity: ${quantity}`, 10, 70);
+                doc.text(`Attendees: ${attendees}`, 10, 80);
+                doc.text(`Paper Type: ${paperType}`, 10, 90);
+                doc.text(`Session: ${session}`, 10, 100);
+                doc.text(`Course: ${course}`, 10, 110);
+                doc.text(`Course Teacher: ${courseTeacher}`, 10, 120);
+            });
+
+            doc.save('exam_sheets.pdf');
+        });
+    });
+</script>
+
+
+</body>
+</html>
